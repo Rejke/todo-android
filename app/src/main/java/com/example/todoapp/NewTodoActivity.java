@@ -22,6 +22,7 @@ public class NewTodoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_options, menu);
+        return true;
     }
 
     @Override
