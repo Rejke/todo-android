@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ public class CustomAdapter extends BaseAdapter {
     private static final int TYPE_SEPARATOR = 1;
 
     private ArrayList<String> mData = new ArrayList<String>();
+    private ArrayList<Boolean> booleans = new ArrayList<Boolean>();
     private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
 
     private LayoutInflater mInflater;
@@ -26,13 +26,15 @@ public class CustomAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void addItem(final String item) {
+    public void addItem(final String item, boolean isChecked) {
         mData.add(item);
+        booleans.add(isChecked);
         notifyDataSetChanged();
     }
 
     public void addSectionHeaderItem(final String item) {
         mData.add(item);
+        booleans.add(null);
         sectionHeader.add(mData.size() - 1);
         notifyDataSetChanged();
     }
@@ -75,13 +77,12 @@ public class CustomAdapter extends BaseAdapter {
 
                     holder.textView = (TextView) convertView.findViewById(R.id.text);
                     holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+                    holder.checkBox.setChecked(booleans.get(position));
 
-                    holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            Todo totoInFocus = (Todo) buttonView.getTag();
-                            if (totoInFocus.isCompleted == isChecked)
-                                return;
-                        }
+                    holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        Todo totoInFocus = (Todo) buttonView.getTag();
+                        if (totoInFocus.isCompleted == isChecked)
+                            return;
                     });
                     break;
                 case TYPE_SEPARATOR:

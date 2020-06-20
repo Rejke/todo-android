@@ -1,15 +1,20 @@
 package com.example.todoapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.koushikdutta.ion.Ion;
 import com.scalified.fab.ActionButton;
+
+import java.util.ArrayList;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
@@ -19,17 +24,13 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 public class MainActivity extends AppCompatActivity {
 
     private CustomAdapter mAdapter;
+    private ArrayList<Project> projects = new ArrayList<>();
 
     private void initFab() {
         ActionButton fab = findViewById(R.id.action_button);
         fab.setImageResource(R.drawable.fab_plus_icon);
         fab.setButtonColor(getResources().getColor(R.color.pinkSearch));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, NewTodoActivity.class));
-            }
-        });
+        fab.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, NewTodoActivity.class)));
     }
 
     @Override
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +58,46 @@ public class MainActivity extends AppCompatActivity {
         initFab();
 
         mAdapter = new CustomAdapter(this);
-        for (int i = 1; i < 10; i++) {
-            mAdapter.addItem("Row Item #" + 1);
-            if (i % 4 == 0) {
-                mAdapter.addSectionHeaderItem("Section #" + 1);
-            }
-        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Ion.with(this)
+                .load(getString(R.string.projectsRequest))
+                .asJsonArray()
+                .setCallback((e, result) -> {
+                    if (result == null) return;
+
+                    projects = new ArrayList<Project>();
+
+                    for (final JsonElement projectElement : result) {
+                        projects.add(new Gson().fromJson(projectElement, Project.class));
+                    }
+
+                    Ion.with(MainActivity.this)
+                            .load(getString(R.string.todoRequest))
+                            .asJsonArray()
+                            .setCallback((e1, result1) -> {
+                                if (result1 == null) return;
+
+                                ArrayList<Todo> todos = new ArrayList<Todo>();
+                                for (final JsonElement todoElement : result1) {
+                                    todos.add(new Gson().fromJson(todoElement, Todo.class));
+                                }
+
+                                for (int i = 0; i < projects.size(); i++) {
+                                    mAdapter.addSectionHeaderItem(projects.get(i).title);
+
+                                    for (int j = 0; j < todos.size(); j++) {
+                                        if (todos.get(j).projectId == projects.get(i).id) {
+                                            mAdapter.addItem(todos.get(j).text, todos.get(j).isCompleted);
+                                        }
+                                    }
+                                }
+                            });
+                });
 
         ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(mAdapter);
