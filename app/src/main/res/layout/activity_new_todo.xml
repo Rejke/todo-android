@@ -8,10 +8,12 @@
 
     <EditText
         android:id="@+id/todo_text"
+        android:background="@drawable/edit_webstyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:padding="16dp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="8dp"
         android:hint="Название задачи..."
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
