@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class CustomAdapter extends BaseAdapter {
                 case TYPE_ITEM:
                     convertView = mInflater.inflate(R.layout.snippet_item1, null);
                     holder.textView = (TextView) convertView.findViewById(R.id.text);
+                    holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
                     break;
                 case TYPE_SEPARATOR:
                     convertView = mInflater.inflate(R.layout.snippet_item2, null);
@@ -92,5 +94,6 @@ public class CustomAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         public TextView textView;
+        public CheckBox checkBox;
     }
 }
