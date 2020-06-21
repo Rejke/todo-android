@@ -1,26 +1,22 @@
 package com.example.todoapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
@@ -104,7 +100,7 @@ public class NewTodoActivity extends AppCompatActivity {
                 json.addProperty("project_id", selectedProject.getId());
 
                 Ion.with(this)
-                        .load("GET", getString(R.string.todoCreateRequest))
+                        .load("POST", getString(R.string.todoCreateRequest))
                         .setJsonObjectBody(json)
                         .asJsonObject()
                         .setCallback((e, result) -> {
