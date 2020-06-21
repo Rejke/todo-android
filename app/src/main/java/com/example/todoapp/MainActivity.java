@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initFab();
-
-        mAdapter = new CustomAdapter(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        mAdapter = new CustomAdapter(this);
 
         Ion.with(this)
                 .load(getString(R.string.projectsRequest))
