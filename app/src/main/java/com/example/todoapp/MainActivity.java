@@ -88,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 for (int i = 0; i < projects.size(); i++) {
-                                    mAdapter.addSectionHeaderItem(projects.get(i).title);
+                                    mAdapter.addSectionHeaderItem(projects.get(i).getTitle());
 
                                     for (int j = 0; j < todos.size(); j++) {
-                                        if (todos.get(j).projectId == projects.get(i).id) {
+                                        if (todos.get(j).projectId == projects.get(i).getId()) {
                                             mAdapter.addItem(todos.get(j).text, todos.get(j).isCompleted);
                                         }
                                     }
