@@ -30,7 +30,11 @@ public class MainActivity extends AppCompatActivity {
         ActionButton fab = findViewById(R.id.action_button);
         fab.setImageResource(R.drawable.fab_plus_icon);
         fab.setButtonColor(getResources().getColor(R.color.pinkSearch));
-        fab.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, NewTodoActivity.class)));
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, NewTodoActivity.class);
+            intent.putParcelableArrayListExtra("projects", MainActivity.this.projects);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
