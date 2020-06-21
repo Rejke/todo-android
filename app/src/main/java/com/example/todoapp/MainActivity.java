@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     for (int j = 0; j < todos.size(); j++) {
                                         if (todos.get(j).getProjectId() == projects.get(i).getId()) {
-                                            mAdapter.addItem(todos.get(j).getText(), todos.get(j).isCompleted);
+                                            mAdapter.addItem(todos.get(j).getText(), todos.get(j));
                                         }
                                     }
                                 }
