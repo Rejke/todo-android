@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="projectsRequest">https://nameless-dawn-11100.herokuapp.com/api/projects/</string>
+    <string name="todoRequest">https://nameless-dawn-11100.herokuapp.com/api/todo/</string>
+    <string name="todoCreateRequest">https://nameless-dawn-11100.herokuapp.com/api/todo/create/</string>
+    <string name="todoUpdateRequest">https://nameless-dawn-11100.herokuapp.com/api/todo/update/</string>
 </resources>
